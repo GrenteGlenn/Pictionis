@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1053436419388",
+    "project_id": "pictionis-3def5",
+    "storage_bucket": "pictionis-3def5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1053436419388:android:2ae833b7540babc0c49239",
+        "android_client_info": {
+          "package_name": "com.alessa_c.pictionis"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9ew7RnE6_SJMiuCpKnQmaal9rWnWGPnU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
