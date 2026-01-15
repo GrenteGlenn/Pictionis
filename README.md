@@ -38,6 +38,17 @@ Le projet met l’accent sur :
 - Dart ≥ 3.x
 - Compte Firebase configuré
 
+## 🔥 Firebase – Sécurité & règles
+
+Le projet utilise des règles Firestore avancées afin de garantir :
+
+- Authentification obligatoire
+- Gestion sécurisée des salles (max 5 joueurs)
+- Contrôle des rôles (créateur / joueurs)
+- Protection des messages et dessins
+
+👉 Les règles complètes sont disponibles dans le fichier `firebase.rules`.
+
 ## Installation 
 - git clone https://github.com/your-username/pictionis.git
 - cd pictionis
