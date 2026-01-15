@@ -1,118 +1,51 @@
-# pictionis
+# 🎨 Pictionis
 
-A new Flutter project.
+**Pictionis** est un jeu multijoueur inspiré de *Pictionary*, développé avec **Flutter** et **Firebase**.  
+Les joueurs rejoignent une salle, dessinent en temps réel et doivent deviner le mot proposé via un système de messagerie.
 
-## Getting Started
+Le projet met l’accent sur :
+- le **temps réel**
+- la **collaboration**
+- la **gestion de salles**
+- la **sécurité Firestore**
 
-This project is a starting point for a Flutter application.
+---
 
-A few resources to get you started if this is your first Flutter project:
+## 🚀 Fonctionnalités
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- 🎨 Tableau de dessin interactif
+- 👥 Salles multijoueurs (jusqu’à 5 joueurs)
+- 💬 Chat en temps réel
+- 🔐 Authentification Firebase
+- 📊 Statistiques utilisateur
+- 🧠 Gestion des rôles (créateur / joueurs)
+- ☁️ Données synchronisées avec Firebase Firestore
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
 
-### Next to do 
-Fix the line size cursor 
-Add rubber
-Add fill 
+## 🧩 Stack technique
 
+- **Flutter**
+- **Dart**
+- **Firebase Authentication**
+- **Cloud Firestore**
 
+---
 
+## 📦 Prérequis
 
-### Notes 
+- Flutter SDK ≥ 3.x
+- Dart ≥ 3.x
+- Compte Firebase configuré
 
-- main.dart: This contains the main entry point and the main app widget.
-- drawing_board.dart: Drawing logic and the UI for the drawing board.
-- drawing_painter.dart: Custom painting logic.
-- colored_line.dart: Define the ColoredLine class.
+## Installation 
+- git clone https://github.com/your-username/pictionis.git
+- cd pictionis
+- flutter pub get
 
+### Lancement du projet
+- flutter run
 
-Don't forget : New dependencies = flutter pub get 
-
-
-Règles / rules firebase 
-```
-rules_version = '2';
-service cloud.firestore {
- match /databases/{database}/documents {
-   // Fonctions utilitaires
-   function isAuthenticated() {
-     return request.auth != null;
-   }
-   
-   function isRoomMember(roomData) {
-     return roomData.players.hasAny([request.auth.uid]);
-   }
-   
-   function isRoomCreator(roomData) {
-     return roomData.createdBy == request.auth.uid;
-   }
-   
-   function isJoiningRoom(roomData, newData) {
-     let currentPlayers = roomData.players;
-     let newPlayers = newData.players;
-     return newPlayers.size() <= 5 && 
-            newPlayers.hasAll(currentPlayers) && 
-            newPlayers.removeAll(currentPlayers).hasOnly([request.auth.uid]);
-   }
-   
-   function isLeavingRoom(roomData, newData) {
-     let currentPlayers = roomData.players;
-     let newPlayers = newData.players;
-     return newPlayers.hasAll(currentPlayers.removeAll([request.auth.uid]));
-   }
-
-   // Règles collection user_stats
-   match /user_stats/{userId} {
-     allow read: if isAuthenticated() && request.auth.uid == userId;
-     allow create, update: if isAuthenticated() && request.auth.uid == userId;
-   }
-
-   // Règles collection rooms
-   match /rooms/{roomId} {
-     allow read: if isAuthenticated();
-     
-     allow create: if isAuthenticated() && 
-                  request.resource.data.players.size() <= 5 &&
-                  request.resource.data.createdBy == request.auth.uid;
-     
-     allow update: if isAuthenticated() && (
-       isRoomMember(resource.data) ||
-       (!isRoomMember(resource.data) &&
-        request.resource.data.players.size() <= 5 &&
-        isJoiningRoom(resource.data, request.resource.data)) ||
-       (isRoomMember(resource.data) &&
-        isLeavingRoom(resource.data, request.resource.data))
-     );
-     
-     allow delete: if isAuthenticated() && isRoomCreator(resource.data);
-
-     match /drawing/{drawingId} {
-       allow read: if isAuthenticated() && 
-                   isRoomMember(get(/databases/$(database)/documents/rooms/$(roomId)).data);
-       
-       allow create, update: if isAuthenticated() && 
-                            isRoomMember(get(/databases/$(database)/documents/rooms/$(roomId)).data) &&
-                            isRoomCreator(get(/databases/$(database)/documents/rooms/$(roomId)).data);
-       
-       allow delete: if isAuthenticated() && 
-                    isRoomCreator(get(/databases/$(database)/documents/rooms/$(roomId)).data);
-     }
-
-     match /messages/{messageId} {
-       allow read: if isAuthenticated() && 
-                  isRoomMember(get(/databases/$(database)/documents/rooms/$(roomId)).data);
-       
-       allow create: if isAuthenticated() && 
-                    isRoomMember(get(/databases/$(database)/documents/rooms/$(roomId)).data) &&
-                    request.resource.data.senderId == request.auth.uid &&
-                    request.resource.data.keys().hasAll(['text', 'senderId', 'senderEmail', 'timestamp']);
-     }
-   }
- }
-}
-```
+Vérification :
+```bash
+flutter --version
